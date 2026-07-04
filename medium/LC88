@@ -1,0 +1,64 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int total = m + n;
+        int i = 0, j = 0;
+        int lastElement = -1;
+        queue<int>left;
+        while( i < m && j < n){
+            int val1 = nums1[i];
+            int val2 = nums2[j];
+            if(!left.empty()){
+                left.push(val1);
+                val1 = left.front();
+            }
+            if(val1 > val2){
+                nums1[i] = val2;
+                if(left.empty()){
+                left.push(val1);
+                }
+                j ++;
+            }else{
+                nums1[i] = val1;
+                if(!left.empty()){
+                    left.pop();
+                }
+            }
+            i++;
+        }
+        int index = i;
+        
+        while(i < m || j < n || (!left.empty())){
+            int val1 = INT_MAX;
+            int val2 = INT_MAX;
+            if(i < m){
+                val1 = nums1[i];
+            }
+            if(j < n){
+                val2 = nums2[j];
+            }
+            if(!left.empty()){
+                if(val1 != INT_MAX) left.push(val1);
+                val1 = left.front();
+            }
+            if(val1 > val2){
+                nums1[index] = val2; 
+                if(left.empty()){
+                    if(val1 != INT_MAX){
+                        left.push(val1);
+                    }
+                }
+                j ++;
+            }
+            else{
+                nums1[index] = val1;
+                if(!left.empty()){
+                    left.pop();
+                }
+            }
+            i ++;
+            index ++;
+        }
+       
+    }
+};
