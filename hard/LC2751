@@ -1,0 +1,68 @@
+class Solution {
+public:
+    vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string directions) {
+        vector<int>answer;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        int n = positions.size();
+        for(int i = 0; i < n; i++){
+            pair<int,int>p;
+            p.first = positions[i];
+            p.second = i ;
+            pq.push(p);
+        }
+        vector<pair<int,int>>vec;
+        while(!pq.empty()){
+            pair<int,int>p = pq.top();
+            vec.push_back(p);
+            pq.pop();
+        }
+        vector<int>bRight;
+        vector<int>left;
+        int idx = vec[0].second;
+        if(directions[idx] == 'R'){
+            bRight.push_back(vec[0].second);
+        }else{
+            left.push_back(vec[0].second);
+        }
+        n = vec.size();
+        for(int i = 1; i < n; i++){
+            pair<int,int>p = vec[i];
+            int rId = p.second;
+            if(directions[rId] == 'R'){
+                bRight.push_back(rId);
+            }else{
+                int end = bRight.size() - 1;
+                bool leftAdd = true;
+                for(int j = end; j >= 0; j--){
+                    int idxR = bRight[j];
+                    int idxL = rId;
+                    if(healths[idxR] == healths[idxL]){
+                        leftAdd = false;
+                        bRight.pop_back();
+                        break;
+                    }
+                    else if(healths[idxR] > healths[idxL]){
+                        healths[idxR]--;
+                        leftAdd = false;
+                        break;
+                    }else{
+                        bRight.pop_back();
+                        healths[idxL]--;
+                    }
+                }
+                if(leftAdd){
+                    left.push_back(rId);
+                }
+
+            }
+        }
+        bRight.insert(bRight.end(), left.begin(), left.end());
+        sort(bRight.begin(), bRight.end());
+        for(auto rId : bRight){
+            answer.push_back(healths[rId]);
+        }
+
+
+        return answer;
+    }
+};
