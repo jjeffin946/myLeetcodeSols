@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>>answer;
+    vector<int>vec;
+    int size;
+    void subsetGen(int index, vector<int>base, int rem)
+    {
+        if(rem == 0){
+            answer.push_back(base);
+            return;
+        }
+
+        for(int i = index ; i < size;  i ++){
+            vector<int>tmp = base;
+            tmp.push_back(vec[i]);
+            subsetGen(i + 1, tmp, rem - 1);
+        }
+        
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        
+
+        int i = 0;
+        vec = nums;
+        size = nums.size();
+        while(i <= size){
+
+            subsetGen(0, {}, i);
+            i ++;
+        }
+
+        return answer;
+        
+    }
+};
