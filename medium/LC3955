@@ -1,0 +1,42 @@
+class Solution {
+public:
+vector<string>answer;
+map<int,string>mp;
+    void stringGen(int n, int rem, string str){
+        if(rem == 0 || n <= 0){
+            if(n <= 0){
+                answer.push_back(str);
+            }else{
+                answer.push_back(str);
+                string tmp = str;
+                tmp[0] = '1';
+                answer.push_back(tmp);
+            }
+            return;
+        }
+        int lastIdx = n - 1;
+        bool both = true;
+        if(lastIdx > rem){
+            both  = false;
+        }
+        if(both){
+             string tmp = str;
+             tmp[n - 1] = '1';
+             stringGen(n - 2, rem - lastIdx, tmp);
+             stringGen(n - 1, rem, str);
+        }else{
+            stringGen(n - 1, rem, str);
+        }
+
+
+    }
+    vector<string> generateValidStrings(int n, int k) {
+        string str = "";
+        for(int i = 1; i <= n; i ++){
+            str += '0';
+            mp[i] = str;
+        }
+        stringGen(n, k, mp[n]);
+        return answer;
+    }
+};
