@@ -1,0 +1,37 @@
+class Solution {
+public:
+int size = 0;
+vector<int>vec;
+long long total = 0;
+    Solution(vector<int>& w) {
+        size = w.size();
+        for(int i = 0; i < size; i ++){
+            int weight = w[i];
+            total = total + weight;
+        }
+        for(int i = 0 ; i < size; i ++){
+            int weight = w[i];
+            int numTimes = ( ((double)weight / total) * 100 );
+            if(numTimes == 0){
+                numTimes = 1;
+            };
+            for(int j = 0; j < numTimes; j ++){
+                vec.push_back(i);
+            }
+        }
+        size = vec.size();
+    } 
+    int pickIndex() {
+        //return 0;
+        int val = rand() % size;
+        return vec[val];
+
+        
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
