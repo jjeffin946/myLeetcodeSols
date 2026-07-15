@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        queue<int>greater;
+        queue<int>lesser;
+        queue<int>retain;
+        int i=0;
+        while(i<nums.size()){
+            if(nums[i]>pivot){
+                greater.push(nums[i]);
+            }
+            else if(nums[i]<pivot){
+                lesser.push(nums[i]);
+            }
+            else{
+                retain.push(nums[i]);
+
+            }
+            i++;
+        }
+        for(int i=0;i<nums.size();i++){
+            if(!lesser.empty()){
+                nums[i]=lesser.front();
+                lesser.pop();
+
+            }else if(!retain.empty()){
+                nums[i]=retain.front();
+                retain.pop();
+            }
+            else {
+                nums[i]=greater.front();
+                greater.pop();
+            }
+        }
+        return nums;
+
+
+    }
+};
